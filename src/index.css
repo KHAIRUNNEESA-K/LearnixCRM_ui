@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-bg-main text-text-main overflow-x-hidden m-0 p-0 box-border;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-5 py-2.5 rounded-xl font-semibold cursor-pointer border-none transition-all duration-200 inline-flex items-center gap-2;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark hover:-translate-y-px;
+  }
+
+  .card {
+    @apply bg-bg-card rounded-xl p-6 shadow-md border border-border;
+  }
+
+  .input-group {
+    @apply mb-5;
+  }
+
+  .input-group label {
+    @apply block mb-2 text-sm font-medium text-text-muted;
+  }
+
+  .input-group input,
+  .input-group select {
+    @apply w-full p-3 border border-border rounded-xl text-[15px] outline-none transition-colors duration-200 focus:border-primary bg-white;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/30;
+  }
+}
