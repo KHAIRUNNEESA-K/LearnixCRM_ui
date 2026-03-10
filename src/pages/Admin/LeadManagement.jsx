@@ -55,7 +55,7 @@ const LeadManagement = () => {
     });
 
     return (
-        <CRMLayout role="Admin" title="Lead Management">
+        <CRMLayout role={user?.role || "Admin"} title="Lead Management">
 
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
@@ -100,6 +100,8 @@ const LeadManagement = () => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase tracking-wider font-semibold">
+                                    <th className="px-6 py-4">Name</th>
+                                    <th className="px-6 py-4">Email</th>
                                     <th className="px-6 py-4">Phone</th>
                                     <th className="px-6 py-4">Source</th>
                                     <th className="px-6 py-4">Team</th>

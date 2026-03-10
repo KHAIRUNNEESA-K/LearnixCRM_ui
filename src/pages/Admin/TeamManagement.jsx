@@ -127,7 +127,7 @@ const TeamManagement = () => {
     };
 
     return (
-        <CRMLayout role="Admin" title="Team Management">
+        <CRMLayout role={user?.role || "Admin"} title="Team Management">
 
             <div className="max-w-6xl mx-auto space-y-6">
 
@@ -246,10 +246,7 @@ const TeamManagement = () => {
                                     <tbody>
                                         {paginatedAssignments.length > 0 ? paginatedAssignments.map((assignment) => (
                                             <tr key={assignment.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                                <td className="px-6 py-4 font-bold text-gray-800 flex items-center gap-2">
-                                                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs font-mono">
-                                                        {assignment.managerName.charAt(0)}
-                                                    </div>
+                                                <td className="px-6 py-4 font-bold text-gray-800">
                                                     {assignment.managerName}
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-500 italic text-xs">
@@ -283,10 +280,7 @@ const TeamManagement = () => {
                                 {Object.keys(groupedAssignments).length > 0 ? Object.keys(groupedAssignments).map(managerName => (
                                     <div key={managerName} className="border border-gray-100 rounded-lg overflow-hidden shadow-sm">
                                         <div className="bg-[#f8fafc] px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
-                                                    {managerName.charAt(0)}
-                                                </div>
+                                            <div className="flex items-center gap-1">
                                                 <h3 className="font-bold text-gray-800 text-sm">Manager: {managerName}</h3>
                                             </div>
                                             <span className="text-xs font-semibold bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{groupedAssignments[managerName].length} Members</span>

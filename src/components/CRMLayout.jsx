@@ -26,20 +26,28 @@ const Sidebar = ({ role }) => {
             { name: 'User Management', path: '/admin/users', icon: <Users size={20} /> },
             { name: 'Lead Management', path: '/admin/leads', icon: <Target size={20} /> },
             { name: 'Team Management', path: '/admin/team', icon: <Users size={20} /> },
+            { name: 'Course Management', path: '/admin/courses', icon: <GraduationCap size={20} /> },
             { name: 'Admissions', path: '/admin/admissions', icon: <GraduationCap size={20} /> },
             { name: 'Reports', path: '/admin/reports', icon: <BarChart2 size={20} /> },
             { name: 'Sales Analytics', path: '/admin/analytics', icon: <TrendingUp size={20} /> },
             { name: 'System Logs', path: '/admin/logs', icon: <ClipboardList size={20} /> }
         ],
         Manager: [
-            { name: 'Overview', path: '/manager', icon: <LayoutDashboard size={20} /> },
-            { name: 'Team Sales', path: '#', icon: <TrendingUp size={20} /> },
-            { name: 'Performance', path: '#', icon: <BarChart2 size={20} /> }
+            { name: 'Dashboard', path: '/manager', icon: <LayoutDashboard size={20} /> },
+            { name: 'Lead Management', path: '/manager/leads', icon: <Target size={20} /> },
+            { name: 'Assign Leads', path: '/manager/assign', icon: <ClipboardList size={20} /> },
+            { name: 'Team Management', path: '/manager/team', icon: <Users size={20} /> },
+            { name: 'Admissions', path: '/manager/admissions', icon: <GraduationCap size={20} /> },
+            { name: 'Reports', path: '/manager/reports', icon: <BarChart2 size={20} /> },
+            { name: 'Sales Analytics', path: '/manager/analytics', icon: <TrendingUp size={20} /> }
         ],
         Sales: [
-            { name: 'Active Leads', path: '/sales', icon: <Users size={20} /> },
-            { name: 'My Pipeline', path: '#', icon: <TrendingUp size={20} /> },
-            { name: 'Analytics', path: '#', icon: <BarChart2 size={20} /> }
+            { name: 'Dashboard', path: '/sales', icon: <LayoutDashboard size={20} /> },
+            { name: 'Leads', path: '/sales/leads', icon: <Target size={20} /> },
+            { name: 'Followups', path: '/sales/followups', icon: <ClipboardList size={20} /> },
+            { name: 'Students', path: '/sales/students', icon: <GraduationCap size={20} /> },
+            { name: 'Blacklist', path: '/sales/blacklist', icon: <Users size={20} className="text-red-400" /> },
+            { name: 'Reports', path: '/sales/reports', icon: <BarChart2 size={20} /> }
         ]
     };
 

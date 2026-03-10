@@ -127,7 +127,7 @@ const SystemLogs = () => {
     };
 
     return (
-        <CRMLayout role="Admin" title="System Logs">
+        <CRMLayout role={user?.role || "Admin"} title="System Logs">
 
             <div className="max-w-7xl mx-auto pb-2">
 
