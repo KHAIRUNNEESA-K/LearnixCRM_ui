@@ -61,7 +61,7 @@ const SalesAnalytics = () => {
     const avgConversion = (teamPerformanceData.reduce((sum, item) => sum + item.conversionRate, 0) / teamPerformanceData.length).toFixed(1);
 
     return (
-        <CRMLayout role="Admin" title="Sales Analytics">
+        <CRMLayout role={user?.role || "Admin"} title="Sales Analytics">
 
             <div className="max-w-7xl mx-auto pb-10">
                 {/* Top Metrics Cards */}
@@ -140,7 +140,7 @@ const SalesAnalytics = () => {
                                 <BarChart data={monthlySalesDetails} margin={{ top: 20, right: 10, left: 0, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} dy={10} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `$${value / 1000}k`} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `₹${value / 1000}k`} />
                                     <RechartsTooltip
                                         cursor={{ fill: 'transparent' }}
                                         content={({ active, payload }) => {
@@ -148,7 +148,7 @@ const SalesAnalytics = () => {
                                                 const total = payload.reduce((sum, entry) => sum + entry.value, 0);
                                                 return (
                                                     <div className="bg-[#2d3748] text-white px-3 py-1.5 rounded-md shadow-lg text-sm font-bold relative -top-8 flex flex-col items-center">
-                                                        <span>${total.toLocaleString()}</span>
+                                                        <span>₹{total.toLocaleString()}</span>
                                                         <div className="absolute top-full border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#2d3748]"></div>
                                                     </div>
                                                 );

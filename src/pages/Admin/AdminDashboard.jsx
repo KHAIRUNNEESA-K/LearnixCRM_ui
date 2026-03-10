@@ -61,7 +61,7 @@ const AdminDashboard = () => {
 
 
     return (
-        <CRMLayout role="Admin" title="Admin Dashboard">
+        <CRMLayout role={user?.role || "Admin"} title="Admin Dashboard">
 
             <div className="max-w-5xl mx-auto">
                 <h2 className="text-lg font-bold text-gray-800 mb-4 tracking-tight">Lead Overview</h2>
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-2 gap-6 mb-8">
                     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3 mb-1">
-                            <span className="text-[32px] font-bold text-gray-800 tracking-tight">$24,500</span>
+                            <span className="text-[32px] font-bold text-gray-800 tracking-tight">₹24,500</span>
                             <span className="text-sm font-semibold text-green-500 bg-green-50 px-2 py-0.5 rounded-full">+12%</span>
                         </div>
                         <p className="text-sm text-gray-500 font-medium">Total Revenue</p>
@@ -109,10 +109,10 @@ const AdminDashboard = () => {
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                         <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickMargin={10} dy={10} />
-                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `$${value}`} />
+                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `₹${value}`} />
                                         <Tooltip
                                             contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                            formatter={(value) => [`$${value}`, 'Revenue']}
+                                            formatter={(value) => [`₹${value}`, 'Revenue']}
                                         />
                                         <Area type="linear" dataKey="value" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" activeDot={{ r: 6, strokeWidth: 0, fill: '#10b981' }} />
                                     </AreaChart>
@@ -173,10 +173,10 @@ const AdminDashboard = () => {
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                         <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickMargin={10} dy={10} />
-                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `$${value}`} />
+                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }} tickFormatter={(value) => `₹${value}`} />
                                         <Tooltip
                                             contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                            formatter={(value) => [`$${value}`, 'Sales']}
+                                            formatter={(value) => [`₹${value}`, 'Sales']}
                                         />
                                         <Area type="linear" dataKey="value" stroke="#3A75E4" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" activeDot={{ r: 6, strokeWidth: 0, fill: '#3A75E4' }} />
                                     </AreaChart>

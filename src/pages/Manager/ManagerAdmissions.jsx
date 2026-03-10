@@ -4,47 +4,61 @@ import { Search, Loader } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 
-const Admissions = () => {
+const ManagerAdmissions = () => {
+    const { user } = useAuth();
     const [searchTerm, setSearchTerm] = useState('');
     const [students, setStudents] = useState([
-        { id: 'S1', name: 'Robert Fox', email: 'robert@fox.com', phone: '9207769041', course: 'Full Stack Development', totalFee: '₹5,000', joiningDate: '2024-02-15T10:00:00Z' },
-        { id: 'S2', name: 'Jane Cooper', email: 'jane@cooper.net', phone: '9876543210', course: 'Data Science & AI', totalFee: '₹6,200', joiningDate: '2024-03-01T10:00:00Z' },
-        { id: 'S3', name: 'Cody Fisher', email: 'cody@fisher.io', phone: '8877665544', course: 'UI/UX Design Masterclass', totalFee: '₹4,800', joiningDate: '2024-03-10T10:00:00Z' },
-        { id: 'S4', name: 'Esther Howard', email: 'esther@howard.org', phone: '7766554433', course: 'Digital Marketing Specialist', totalFee: '₹3,200', joiningDate: '2024-03-12T10:00:00Z' },
-        { id: 'S5', name: 'Cameron Williamson', email: 'cameron@will.com', phone: '6655443322', course: 'Cyber Security Essentials', totalFee: '₹5,800', joiningDate: '2024-03-15T10:00:00Z' },
-        { id: 'S6', name: 'Brooklyn Simmons', email: 'brooklyn.s@example.com', phone: '9988776655', course: 'Full Stack Development', totalFee: '₹5,000', joiningDate: '2024-03-20T10:00:00Z' },
-        { id: 'S7', name: 'Leslie Alexander', email: 'leslie.a@example.com', phone: '8877665544', course: 'Data Science', totalFee: '₹6,000', joiningDate: '2024-03-25T10:00:00Z' },
-        { id: 'S8', name: 'Guy Hawkins', email: 'guy.h@example.com', phone: '7766554433', course: 'UI/UX Design', totalFee: '₹4,500', joiningDate: '2024-04-01T10:00:00Z' }
+        { id: 'S1', name: 'Robert Fox', email: 'robert@fox.com', phone: '9207769041', course: 'Full Stack Development', totalFee: '₹5,000', joiningDate: '2024-02-15T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S2', name: 'Jane Cooper', email: 'jane@cooper.net', phone: '9876543210', course: 'Data Science & AI', totalFee: '₹6,200', joiningDate: '2024-03-01T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S3', name: 'Cody Fisher', email: 'cody@fisher.io', phone: '8877665544', course: 'UI/UX Design Masterclass', totalFee: '₹4,800', joiningDate: '2024-03-10T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S4', name: 'Esther Howard', email: 'esther@howard.org', phone: '7766554433', course: 'Digital Marketing Specialist', totalFee: '₹3,200', joiningDate: '2024-03-12T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S5', name: 'Cameron Williamson', email: 'cameron@will.com', phone: '6655443322', course: 'Cyber Security Essentials', totalFee: '₹5,800', joiningDate: '2024-03-15T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S6', name: 'Brooklyn Simmons', email: 'brooklyn.s@example.com', phone: '9988776655', course: 'Full Stack Development', totalFee: '₹5,000', joiningDate: '2024-03-20T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S7', name: 'Leslie Alexander', email: 'leslie.a@example.com', phone: '8877665544', course: 'Data Science', totalFee: '₹6,000', joiningDate: '2024-03-25T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' },
+        { id: 'S8', name: 'Guy Hawkins', email: 'guy.h@example.com', phone: '7766554433', course: 'UI/UX Design', totalFee: '₹4,500', joiningDate: '2024-04-01T10:00:00Z', managerEmail: user?.email || 'manager@learnix.com' }
     ]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const ITEMS_PER_PAGE = 5;
-    const { user } = useAuth();
+
 
     useEffect(() => {
         const fetchAdmissions = async () => {
             try {
                 setLoading(true);
-                const data = await api.admissions.getAll();
-                if (data && data.length > 0) {
-                    setStudents(prev => {
-                        const existingEmails = new Set(data.map(s => s.email));
-                        const filteredDummy = prev.filter(d => !existingEmails.has(d.email));
-                        return [...filteredDummy, ...data];
-                    });
-                }
+                const allData = await api.admissions.getAll();
+                // Filter only for this manager's team
+                const myTeamData = allData.filter(s => s.managerEmail === user?.email);
+
+                // Merge dummy data with fetched data
+                setStudents(prev => {
+                    const existingEmails = new Set(myTeamData.map(l => l.email));
+                    const filteredDummy = prev.filter(d => d.id.startsWith('S') && !existingEmails.has(d.email));
+                    return [...filteredDummy, ...myTeamData];
+                });
+
+                setError(null);
             } catch (err) {
                 console.error("Failed to fetch admissions", err);
+                // We don't set the error state here so the dummy data is still visible
             } finally {
                 setLoading(false);
             }
         };
-        fetchAdmissions();
-    }, []);
+
+        if (user?.email) {
+            fetchAdmissions();
+        }
+    }, [user]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
 
     const filteredStudents = students.filter(student =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (student.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.course.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -54,12 +68,19 @@ const Admissions = () => {
         currentPage * ITEMS_PER_PAGE
     );
 
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     return (
-        <CRMLayout role="Admin" title="Total Student Admissions">
+        <CRMLayout role="Manager" title="Admissions">
+
             <div className="max-w-6xl mx-auto">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
                     <div className="px-6 py-4 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <h2 className="text-lg font-bold text-gray-800 tracking-tight">Total Student Enrollment</h2>
+                        <h2 className="text-lg font-bold text-gray-800 tracking-tight">Student Enrollments (Your Team)</h2>
                         <div className="relative w-full md:w-72">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                             <input
@@ -76,7 +97,7 @@ const Admissions = () => {
                         {loading ? (
                             <div className="flex flex-col items-center justify-center h-full py-16 text-gray-500 gap-3">
                                 <Loader className="animate-spin text-[#3c72d1]" size={32} />
-                                <span className="text-sm font-medium">Loading admissions records...</span>
+                                <span className="text-sm font-medium">Loading team data...</span>
                             </div>
                         ) : (
                             <table className="w-full text-left border-collapse">
@@ -114,7 +135,7 @@ const Admissions = () => {
                                     ) : (
                                         <tr>
                                             <td colSpan="5" className="px-6 py-12 text-center text-gray-500 font-medium">
-                                                No students found matching your search.
+                                                No enrollments found for your team.
                                             </td>
                                         </tr>
                                     )}
@@ -125,30 +146,32 @@ const Admissions = () => {
                 </div>
 
                 {/* Pagination Controls */}
-                {!loading && filteredStudents.length > 0 && (
+                {!loading && !error && filteredStudents.length > 0 && (
                     <div className="mt-6 flex items-center justify-between bg-white px-6 py-4 rounded-lg shadow-sm border border-gray-100">
                         <span className="text-sm text-gray-500">
                             Showing <span className="font-semibold text-gray-700">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> to <span className="font-semibold text-gray-700">{Math.min(currentPage * ITEMS_PER_PAGE, filteredStudents.length)}</span> of <span className="font-semibold text-gray-700">{filteredStudents.length}</span> students
                         </span>
                         <div className="flex items-center gap-1">
                             <button
-                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
                                 className={`px-3 py-1.5 text-sm font-medium border rounded-md transition-colors ${currentPage === 1 ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50'}`}
                             >
                                 Previous
                             </button>
+
                             {[...Array(totalPages)].map((_, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setCurrentPage(i + 1)}
+                                    onClick={() => handlePageChange(i + 1)}
                                     className={`px-3 py-1.5 text-sm font-medium border rounded-md transition-colors ${currentPage === i + 1 ? 'text-white bg-[#3c72d1] border-[#3c72d1]' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50'}`}
                                 >
                                     {i + 1}
                                 </button>
                             ))}
+
                             <button
-                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                                 className={`px-3 py-1.5 text-sm font-medium border rounded-md transition-colors ${currentPage === totalPages ? 'text-gray-400 bg-gray-50 border-gray-200 cursor-not-allowed' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50'}`}
                             >
@@ -162,4 +185,4 @@ const Admissions = () => {
     );
 };
 
-export default Admissions;
+export default ManagerAdmissions;

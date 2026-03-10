@@ -43,4 +43,22 @@
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/30;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Toastify Overrides */
+:root {
+  --toastify-color-success: #3c72d1;
+}
+
+.Toastify__progress-bar--success {
+  background: #3c72d1 !important;
 }

@@ -51,7 +51,7 @@ const Reports = () => {
 
 
     return (
-        <CRMLayout role="Admin" title="Reports Center">
+        <CRMLayout role={user?.role || "Admin"} title="Reports Center">
 
             <div className="max-w-6xl mx-auto pb-10">
                 {/* Reports Navigation */}
@@ -176,7 +176,7 @@ const Reports = () => {
                                                     <div className="font-bold text-gray-800">{item.name}</div>
                                                 </td>
                                                 <td className="px-8 py-5 text-sm font-medium text-gray-500">{item.role}</td>
-                                                <td className="px-8 py-5 text-center font-bold text-gray-700">{item.teamSales || item.personalSales}</td>
+                                                <td className="px-8 py-5 text-center font-bold text-gray-700">₹{item.teamSales || item.personalSales}</td>
                                                 <td className="px-8 py-5 text-center font-black text-[#3c72d1]">{item.achievement}</td>
                                                 <td className="px-8 py-5 text-center">
                                                     <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{item.status}</span>
